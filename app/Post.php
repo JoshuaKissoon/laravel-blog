@@ -3,9 +3,9 @@
     namespace App;
 
     use Illuminate\Database\Eloquent\Model;
-
-    use Carbon\Carbon;
     
+    use Carbon\Carbon;
+
     class Post extends Model
     {
 
@@ -42,6 +42,15 @@
                 $year = $filters['year'];
                 $query->whereYear('created_at', $year);
             }
+        }
+
+        public static function archives()
+        {
+            return static::selectRaw('year(created_at) as year, monthname(created_at) as month, count(*) as published')
+            ->groupBy('year', 'month')
+            ->orderByRaw('MIN(created_at) DESC')
+            ->get()
+            ->toArray();
         }
 
     }
