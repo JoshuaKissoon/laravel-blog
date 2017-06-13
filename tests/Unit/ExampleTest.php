@@ -18,18 +18,18 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        // given
+        // Given we have 2 posts
         $first = factory(Post::class)->create();
         $second = factory(Post::class)->create([
             'created_at' => \Carbon\Carbon::now()->subMonth()
         ]);
         
-        // when
-        $posts = Post::archives();
+        // When we load the archives
+        $archives = Post::archives();
         
-        // then
-        $this->assertCount(2, $posts);
-        $this->assertEquals($posts, [
+        // Then we should have this result
+        $this->assertCount(2, $archives);
+        $this->assertEquals($archives, [
             [
                 "year" => $first->created_at->format("Y"), 
                 "month" => $first->created_at->format("F"), 
